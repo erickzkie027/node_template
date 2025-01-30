@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Homepage</title>
+		<link rel="stylesheet" href="/customs/css/product.css">
+		<link rel="stylesheet" href="/vendors/css/bootstrap.css">
+		<script src="/vendors/js/jquery.js"></script>
+		<script src="/vendors/js/bootstrap.bundle.min.js"></script>
+		<script src="/customs/js/show.js"></script>
+</head>
+<body>
+		<%- include("partials/header") %>
+
+		<div class="container-lg">
+			<a href="/" class="link-primary link-underline-opacity-50 back-link"> Back </a> 
+			<h1 class="my-4">Product Details</h1>
+			
+			<div class="row">
+				<div class="col-md-5">
+					<div class="card h-100 product-block">
+						<img class="mb-5" src="/images/<%= product.image_path %>" alt="image">
+						<div class="thumbnail">
+							<img src="/images/<%= product.image_path %>" alt="" class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#show-image-modal">
+
+							<% if( product.thumbnail !== null) { %>
+								<% let thumbnails = product.thumbnail.split(",");
+								 if(thumbnails.length) { 
+									 thumbnails.forEach(thumbnail => { %>
+								<img src="/images/<%= thumbnail %>" alt="" class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#show-image-modal">
+								<%  })
+								} %>
+							<% } %>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-7">
+					<div class="card h-100 product-description">
+						<h4><%= product.name %></h4>
+						<span><%= product.description %></span>
+						<h4 class="mt-3">P<%= product.price %></h4>
+						<div class="card-footer mb-100 add-to-cart-container">
+							<form action="/cart/add" method="POST">
+								<label for="" class="form-label"> Quantity </label>
+								<input type="number" class="form-control mb-3" id="quantity" name="quantity" min="1" max="10" value="1">
+								<input type="hidden" name="product_id" value="<%= product.id %>">
+								<button type="submit" class="form-control btn btn-outline-success"> Add to Cart </button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="show-image-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal-title"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body container">
+						<img class="w-100" id="modal-image" src="" alt="" style="height: 300px; object-fit: cover;">
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

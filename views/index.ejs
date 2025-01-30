@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Homepage</title>
+		<link rel="stylesheet" href="/customs/css/index.css">
 		<link rel="stylesheet" href="/vendors/css/bootstrap.css">
 		<script src="/vendors/js/jquery.js"></script>
 		<script src="/vendors/js/bootstrap.bundle.min.js"></script>
@@ -11,7 +12,27 @@
 </head>
 <body>
 		<%- include("partials/header") %>
-		<h1 class="text-primary text-center my-4" data-bs-toggle="modal" data-bs-target="#show-image-modal">Homepage</h1>
+
+		<div class="container-lg">
+			<h1 class="my-4">Products</h1>
+
+			<div class="row">
+				<%  products.forEach(product => { %>
+				<div class="col mb-5">
+					<div class="card h-100 product-item">
+						<img class="card-img-top product-img mb-3"  src="/images/<%= product.image_path %>" alt="image">
+						
+						<h4><%= product.name %></h4>
+						<span><%= product.description %></span>
+						
+						<h4 class="text-center mt-3">P<%= product.price %></h4>
+						<a href="/product/<%= product.id %>" class="btn btn-outline-dark"> View </a>
+					</div>
+				</div>
+				<% }) %>
+
+			</div>
+		</div>
 
 		<div class="modal fade" id="show-image-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
 			<div class="modal-dialog">

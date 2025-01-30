@@ -6,6 +6,13 @@ class ProductController {
 
         res.render("index", { products });
     }
+
+    show = async (req, res) => {
+        const [product] = await new ProductModel().fetchProduct(req.params.id);
+        
+        res.render("show", { product });
+    }
+
 }
 
 export default new ProductController;

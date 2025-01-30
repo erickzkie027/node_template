@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Homepage</title>
+		<link rel="stylesheet" href="/customs/css/cart.css">
+		<link rel="stylesheet" href="/vendors/css/bootstrap.css">
+		<script src="/vendors/js/jquery.js"></script>
+		<script src="/vendors/js/bootstrap.bundle.min.js"></script>
+		<script src="/customs/js/cart.js"></script>
+</head>
+<body>
+		<%- include("partials/header") %>
+
+		<div class="container-lg">
+			<!-- <a href="/" class="link-primary link-underline-opacity-50 back-link"> Back </a>  -->
+			<h1 class="my-4">Cart (<%= carts.length %>)</h1>
+			<% let grand_total = 0; %>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Product</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Total</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% carts.forEach( cart => {
+						grand_total += (cart.price * cart.quantity) %>
+					<tr>
+						<td><img src="/images/<%= cart.image_path %>" alt="" class="product-image"> <a href="/product/<%= cart.product_id %>" class="link-primary link-underline-opacity-50"> <%= cart.name %></a></td>
+						<td>P<%= cart.price %></td>
+						<td>
+							<form action="/cart/add" method="POST" class="">
+								<input type="number" name="quantity" id="quantity" value="<%= cart.quantity %>" placeholder="<%= cart.quantity %>" min="1" max="10"> 
+								<input type="hidden" name="product_id" value="<%= cart.product_id %>">
+								<input type="hidden" name="is_cart_update" value="1">
+								<input type="submit" value="Update" class="btn btn-outline-warning">
+							</form>
+						
+						</td>
+						<td>P<%= cart.price * cart.quantity %>.00</td>
+						<td>
+							<form action="/cart/delete" method="POST" class="delete-cart-form">
+								<input type="hidden" name="cart_id" value="<%= cart.cart_id %>">
+								<input type="submit" value="Delete" class="btn btn-outline-danger">
+							</form>
+						</td>
+					</tr>
+					
+					<% }) %>
+
+					<% if(carts.length) { %>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td><p><strong>Pay: P<%= grand_total %>.00</strong></p></td>
+						<td>
+							<form action="/cart/checkout" method="POST" id="checkout-form">
+								<input type="submit" class="btn btn-outline-success" value="Checkout">
+							</form>
+						</td>
+					</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="modal fade" id="show-image-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal-title"></h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body container">
+						<img class="w-100" id="modal-image" src="" alt="" style="height: 300px; object-fit: cover;">
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>
